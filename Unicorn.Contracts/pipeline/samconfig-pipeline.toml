@@ -1,0 +1,47 @@
+version = 0.1
+
+[1]
+[1.global]
+[1.global.parameters]
+stack_name = "uni-prop-dev-contracts"
+s3_prefix = "uni-prop-dev-contracts"
+s3_bucket = "aws-sam-cli-managed-dev-pipeline-r-artifactsbucket-gdahbxqn1woe"
+region = "us-east-1"
+image_repository = "590183686815.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-dev-pipeline-resources-imagerepository-6ubrg8emaksm"
+
+[1.deploy]
+[1.deploy.parameters]
+template = "packaged-testing.yaml"
+fail_on_empty_changeset = false
+capabilities = "CAPABILITY_IAM CAPABILITY_AUTO_EXPAND"
+parameter_overrides = "Stage=dev"
+
+# ############################################## #
+
+[2]
+[2.global]
+[2.global.parameters]
+stack_name = "uni-prop-prop-contracts"
+s3_prefix = "uni-prop-prop-contracts"
+s3_bucket = "aws-sam-cli-managed-prod-pipeline--artifactsbucket-cua2fo1rs2ui"
+region = "us-east-1"
+image_repository = "590183686815.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-prod-pipeline-resources-imagerepository-1swbohsemppi"
+
+[2.deploy]
+[2.deploy.parameters]
+template = "packaged-prod.yaml"
+fail_on_empty_changeset = false
+capabilities = "CAPABILITY_IAM"
+# parameter_overrides = ""
+
+# ############################################## #
+
+[pipeline]
+[pipeline.deploy]
+[pipeline.deploy.parameters]
+stack_name = "uni-prop-contracts-pipeline"
+s3_prefix = "uni-prop-contracts-pipeline"
+resolve_s3 = true
+fail_on_empty_changeset = false
+template = "codepipeline.yaml"
+capabilities = "CAPABILITY_IAM"
